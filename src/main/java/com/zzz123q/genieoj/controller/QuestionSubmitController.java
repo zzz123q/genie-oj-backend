@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzz123q.genieoj.exception.BusinessException;
 import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
+import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
+import com.zzz123q.genieoj.model.entity.QuestionSubmit;
 import com.zzz123q.genieoj.model.entity.User;
+import com.zzz123q.genieoj.model.vo.QuestionSubmitVO;
 import com.zzz123q.genieoj.result.BaseResponse;
 import com.zzz123q.genieoj.result.ErrorCode;
 import com.zzz123q.genieoj.result.ResultUtils;
@@ -52,6 +56,27 @@ public class QuestionSubmitController {
         final User loginUser = userService.getLoginUser(request);
         Long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
         return ResultUtils.success(questionSubmitId);
+    }
+
+    /**
+     * 分页获取题目提交列表
+     * (管理员与用户本人可以看见全部信息, 非用户本人只能看到部分公开信息)
+     *
+     * @param questionSubmitQueryRequest
+     * @return
+     */
+    @PostMapping("/list/page")
+    @ApiOperation("分页获取题目提交列表")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(
+            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest, HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        final User loginUser = userService.getLoginUser(request);
+        Page<QuestionSubmitVO> questionSubmitVOPage = questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage,
+                loginUser);
+        return ResultUtils.success(questionSubmitVOPage);
     }
 
 }
