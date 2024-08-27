@@ -9,6 +9,8 @@ import com.zzz123q.genieoj.annotation.AuthCheck;
 import com.zzz123q.genieoj.constant.UserConstant;
 import com.zzz123q.genieoj.exception.BusinessException;
 import com.zzz123q.genieoj.exception.ThrowUtils;
+import com.zzz123q.genieoj.model.dto.question.JudgeCase;
+import com.zzz123q.genieoj.model.dto.question.JudgeConfig;
 import com.zzz123q.genieoj.model.dto.question.QuestionAddRequest;
 import com.zzz123q.genieoj.model.dto.question.QuestionEditRequest;
 import com.zzz123q.genieoj.model.dto.question.QuestionQueryRequest;
@@ -71,6 +73,14 @@ public class QuestionController {
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
         }
+        List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
+        if (judgeCase != null) {
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
+        }
+        JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
+        }
         questionService.validQuestion(question, true);
         User loginUser = userService.getLoginUser(request);
         question.setUserId(loginUser.getId());
@@ -125,6 +135,14 @@ public class QuestionController {
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
         }
+        List<JudgeCase> judgeCase = questionUpdateRequest.getJudgeCase();
+        if (judgeCase != null) {
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
+        }
+        JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
+        }
         // 参数校验
         questionService.validQuestion(question, false);
         long id = questionUpdateRequest.getId();
@@ -155,7 +173,7 @@ public class QuestionController {
     }
 
     /**
-     * 分页获取列表(仅管理员)
+     * 分页获取题目列表(仅管理员)
      *
      * @param questionQueryRequest
      * @return
@@ -237,6 +255,14 @@ public class QuestionController {
         List<String> tags = questionEditRequest.getTags();
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        List<JudgeCase> judgeCase = questionEditRequest.getJudgeCase();
+        if (judgeCase != null) {
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
+        }
+        JudgeConfig judgeConfig = questionEditRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
         // 参数校验
         questionService.validQuestion(question, false);
