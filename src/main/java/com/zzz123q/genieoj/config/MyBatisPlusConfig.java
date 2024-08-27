@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * MyBatis Plus 配置
  */
 @Configuration
-@MapperScan("com.zzz123q.genie_oj_backend.mapper")
+@MapperScan("com.zzz123q.genieoj.mapper")
 public class MyBatisPlusConfig {
 
     /**

@@ -196,13 +196,13 @@ public class UserController {
     }
 
     /**
-     * 根据 id 获取用户（仅管理员）
+     * 根据 id 获取用户(仅管理员)
      *
      * @param id
      * @param request
      * @return
      */
-    @ApiOperation("根据 id 获取用户（仅管理员）")
+    @ApiOperation("根据 id 获取用户(仅管理员)")
     @GetMapping("/get")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<User> getUserById(long id, HttpServletRequest request) {
@@ -230,13 +230,13 @@ public class UserController {
     }
 
     /**
-     * 分页获取用户列表（仅管理员）
+     * 分页获取用户列表(仅管理员)
      *
      * @param userQueryRequest
      * @param request
      * @return
      */
-    @ApiOperation("分页获取用户列表（仅管理员）")
+    @ApiOperation("分页获取用户列表(仅管理员)")
     @PostMapping("/list/page")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,

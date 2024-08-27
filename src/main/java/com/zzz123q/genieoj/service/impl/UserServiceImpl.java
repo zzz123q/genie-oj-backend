@@ -120,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (currentUser == null || currentUser.getId() == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        // 从数据库查询(追求性能的话可以注释，直接走缓存)
         long userId = currentUser.getId();
         currentUser = this.getById(userId);
         if (currentUser == null) {
@@ -130,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 获取当前登录用户（允许未登录）
+     * 获取当前登录用户(允许未登录)
      *
      * @param request
      * @return
@@ -143,7 +143,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (currentUser == null || currentUser.getId() == null) {
             return null;
         }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        // 从数据库查询(追求性能的话可以注释，直接走缓存)
         long userId = currentUser.getId();
         return this.getById(userId);
     }
