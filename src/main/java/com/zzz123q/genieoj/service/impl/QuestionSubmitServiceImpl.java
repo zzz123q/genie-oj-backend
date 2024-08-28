@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzz123q.genieoj.constant.CommonConstant;
 import com.zzz123q.genieoj.exception.BusinessException;
+import com.zzz123q.genieoj.judge.JudgeService;
 import com.zzz123q.genieoj.mapper.QuestionSubmitMapper;
 import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
@@ -26,10 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,6 +47,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     private QuestionService questionService;
     @Resource
     private UserService userService;
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     /**
      * 题目提交
@@ -78,9 +84,13 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目提交失败");
         }
 
-        // TODO 执行判题服务
+        // 执行判题服务
+        Long questionSubmitId = questionSubmit.getId();
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
 
-        return questionSubmit.getId();
+        return questionSubmitId;
     }
 
     /**
