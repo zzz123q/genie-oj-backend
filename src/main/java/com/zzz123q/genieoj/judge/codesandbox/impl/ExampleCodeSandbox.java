@@ -5,7 +5,7 @@ import java.util.List;
 import com.zzz123q.genieoj.judge.codesandbox.CodeSandbox;
 import com.zzz123q.genieoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.zzz123q.genieoj.judge.codesandbox.model.ExecuteCodeResponse;
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.model.enums.JudgeInfoMessageEnum;
 import com.zzz123q.genieoj.model.enums.QuestionSubmitStatusEnum;
 

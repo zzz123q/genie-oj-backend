@@ -1,4 +1,4 @@
-package com.zzz123q.genieoj.model.dto.questionsubmit;
+package com.zzz123q.genieoj.judge.codesandbox.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

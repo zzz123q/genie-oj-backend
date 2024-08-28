@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.model.entity.QuestionSubmit;
 
 import cn.hutool.json.JSONUtil;

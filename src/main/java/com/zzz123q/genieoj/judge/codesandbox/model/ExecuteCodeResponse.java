@@ -1,7 +1,5 @@
 package com.zzz123q.genieoj.judge.codesandbox.model;
 
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

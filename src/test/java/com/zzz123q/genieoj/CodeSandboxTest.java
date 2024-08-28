@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.zzz123q.genieoj.judge.codesandbox.CodeSandbox;
 import com.zzz123q.genieoj.judge.codesandbox.CodeSandboxFactory;
 import com.zzz123q.genieoj.judge.codesandbox.CodeSandboxProxy;
-import com.zzz123q.genieoj.judge.codesandbox.impl.ExampleCodeSandbox;
 import com.zzz123q.genieoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.zzz123q.genieoj.judge.codesandbox.model.ExecuteCodeResponse;
 

@@ -2,9 +2,9 @@ package com.zzz123q.genieoj.judge.strategy;
 
 import java.util.List;
 
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.model.dto.question.JudgeCase;
 import com.zzz123q.genieoj.model.dto.question.JudgeConfig;
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

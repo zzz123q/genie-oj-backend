@@ -2,11 +2,11 @@ package com.zzz123q.genieoj.judge;
 
 import org.springframework.stereotype.Service;
 
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.judge.strategy.DefaultJudgeStrategy;
 import com.zzz123q.genieoj.judge.strategy.JavaLanguageJudgeStrategy;
 import com.zzz123q.genieoj.judge.strategy.JudgeContext;
 import com.zzz123q.genieoj.judge.strategy.JudgeStrategy;
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
 
 /**
  * 判题管理

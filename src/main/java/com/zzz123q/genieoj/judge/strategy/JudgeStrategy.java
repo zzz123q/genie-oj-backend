@@ -1,6 +1,6 @@
 package com.zzz123q.genieoj.judge.strategy;
 
-import com.zzz123q.genieoj.model.dto.questionsubmit.JudgeInfo;
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 
 /**
  * 判题策略
