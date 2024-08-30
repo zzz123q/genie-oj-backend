@@ -12,7 +12,7 @@
         <result property="answer" column="answer" jdbcType="VARCHAR"/>
         <result property="submitNum" column="submitNum" jdbcType="INTEGER"/>
         <result property="acceptedNum" column="acceptedNum" jdbcType="INTEGER"/>
-        <result property="passingRate" column="passingRate" jdbcType="FLOAT"/>
+        <result property="passingRate" column="passingRate" jdbcType="DECIMAL"/>
         <result property="judgeCase" column="judgeCase" jdbcType="VARCHAR"/>
         <result property="judgeConfig" column="judgeConfig" jdbcType="VARCHAR"/>
         <result property="userId" column="userId" jdbcType="BIGINT"/>

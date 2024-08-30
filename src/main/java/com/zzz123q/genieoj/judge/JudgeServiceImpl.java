@@ -71,7 +71,7 @@ public class JudgeServiceImpl implements JudgeService {
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.JUDGING.getValue());
         boolean update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
-            throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目状态更新失败");
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目提交状态更新失败");
         }
 
         // 4. 调用沙箱，获取执行结果
@@ -109,7 +109,7 @@ public class JudgeServiceImpl implements JudgeService {
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
         update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
-            throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目状态更新失败");
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目提交状态更新失败");
         }
 
         // 6. 返回提交的最新状态

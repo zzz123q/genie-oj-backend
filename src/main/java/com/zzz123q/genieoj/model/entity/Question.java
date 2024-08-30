@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.math.BigDecimal;
 import lombok.Data;
 
 /**
@@ -57,7 +58,7 @@ public class Question implements Serializable {
     /**
      * 题目通过率
      */
-    private Float passingRate;
+    private BigDecimal passingRate;
 
     /**
      * 判题用例(json数组)

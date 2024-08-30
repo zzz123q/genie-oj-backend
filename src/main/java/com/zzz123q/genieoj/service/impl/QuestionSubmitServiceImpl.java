@@ -7,12 +7,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzz123q.genieoj.constant.CommonConstant;
 import com.zzz123q.genieoj.exception.BusinessException;
 import com.zzz123q.genieoj.judge.JudgeService;
+import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.mapper.QuestionSubmitMapper;
 import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.zzz123q.genieoj.model.entity.Question;
 import com.zzz123q.genieoj.model.entity.QuestionSubmit;
 import com.zzz123q.genieoj.model.entity.User;
+import com.zzz123q.genieoj.model.enums.JudgeInfoMessageEnum;
 import com.zzz123q.genieoj.model.enums.QuestionSubmitLanguageEnum;
 import com.zzz123q.genieoj.model.enums.QuestionSubmitStatusEnum;
 import com.zzz123q.genieoj.model.vo.QuestionSubmitVO;
@@ -23,8 +25,10 @@ import com.zzz123q.genieoj.service.UserService;
 import com.zzz123q.genieoj.utils.SqlUtils;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.concurrent.CompletableFuture;
@@ -87,7 +91,24 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         // 执行判题服务
         Long questionSubmitId = questionSubmit.getId();
         CompletableFuture.runAsync(() -> {
-            judgeService.doJudge(questionSubmitId);
+            QuestionSubmit questionSubmitAfterJudge = judgeService.doJudge(questionSubmitId);
+            JudgeInfo judgeInfo = JSONUtil.toBean(questionSubmitAfterJudge.getJudgeInfo(), JudgeInfo.class);
+            Question questionUpdate = questionService.getById(questionId);
+            Integer submitNum = questionUpdate.getSubmitNum();
+            Integer acceptedNum = questionUpdate.getAcceptedNum();
+            BigDecimal passingRate = questionUpdate.getPassingRate();
+            submitNum++;
+            if (judgeInfo.getMessage().equals(JudgeInfoMessageEnum.ACCEPTED.getValue())) {
+                acceptedNum++;
+            }
+            passingRate = BigDecimal.valueOf((acceptedNum + 0.0) / submitNum);
+            questionUpdate.setSubmitNum(submitNum);
+            questionUpdate.setAcceptedNum(acceptedNum);
+            questionUpdate.setPassingRate(passingRate);
+            boolean update = questionService.updateById(questionUpdate);
+            if (!update) {
+                throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目状态更新失败");
+            }
         });
 
         return questionSubmitId;

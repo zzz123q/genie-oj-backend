@@ -1,6 +1,7 @@
 package com.zzz123q.genieoj.model.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class QuestionVO implements Serializable {
     /**
      * 题目通过率
      */
-    private Float passingRate;
+    private BigDecimal passingRate;
 
     /**
      * 题目限制
