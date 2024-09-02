@@ -16,11 +16,17 @@ import cn.hutool.json.JSONUtil;
  */
 public class RemoteCodeSandbox implements CodeSandbox {
 
+    // 定义鉴权请求头和密钥
+    private static final String AUTH_REQUEST_HEADER = "auth";
+
+    private static final String AUTH_REQUEST_SECRET = "secret";
+
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         System.out.println("远程代码沙箱");
         String url = "http://192.168.220.129:8082/executeCode";
         HttpResponse httpResponse = HttpUtil.createPost(url)
+                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
                 .body(JSONUtil.toJsonStr(executeCodeRequest))
                 .execute();
         String resPonseBodyStr = httpResponse.body();
