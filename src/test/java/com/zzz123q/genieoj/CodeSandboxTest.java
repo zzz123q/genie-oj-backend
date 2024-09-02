@@ -38,6 +38,7 @@ public class CodeSandboxTest {
 
             CodeSandbox box = CodeSandboxFactory.newInstance(type);
             ExecuteCodeResponse response = box.executeCode(executeCodeRequest);
+            System.out.println(response);
         }
         scanner.close();
     }
@@ -57,11 +58,18 @@ public class CodeSandboxTest {
 
         CodeSandbox box = CodeSandboxFactory.newInstance(type);
         ExecuteCodeResponse response = box.executeCode(executeCodeRequest);
+        System.out.println(response);
     }
 
     @Test
     public void executeCodeByProxy() {
-        String code = "int main () {}";
+        String code = "public class Main {\r\n" + //
+                "    public static void main(String[] args) {\r\n" + //
+                "        int a = Integer.parseInt(args[0]);\r\n" + //
+                "        int b = Integer.parseInt(args[1]);\r\n" + //
+                "        System.out.println(\"结果是: \" + (a + b));\r\n" + //
+                "    }\r\n" + //
+                "}";
         String language = "java";
         List<String> inputList = Arrays.asList("1 2", "3 4");
         Long timeLimit = 1000L;
@@ -75,6 +83,7 @@ public class CodeSandboxTest {
         CodeSandbox box = CodeSandboxFactory.newInstance(type);
         box = new CodeSandboxProxy(box);
         ExecuteCodeResponse response = box.executeCode(executeCodeRequest);
+        System.out.println(response);
     }
 
     public static void main(String[] args) {
@@ -94,6 +103,7 @@ public class CodeSandboxTest {
 
             CodeSandbox box = CodeSandboxFactory.newInstance(type);
             ExecuteCodeResponse response = box.executeCode(executeCodeRequest);
+            System.out.println(response);
         }
         scanner.close();
     }
