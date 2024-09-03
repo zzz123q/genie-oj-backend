@@ -15,14 +15,19 @@ import com.zzz123q.genieoj.model.dto.question.QuestionAddRequest;
 import com.zzz123q.genieoj.model.dto.question.QuestionEditRequest;
 import com.zzz123q.genieoj.model.dto.question.QuestionQueryRequest;
 import com.zzz123q.genieoj.model.dto.question.QuestionUpdateRequest;
+import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
+import com.zzz123q.genieoj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.zzz123q.genieoj.model.entity.Question;
+import com.zzz123q.genieoj.model.entity.QuestionSubmit;
 import com.zzz123q.genieoj.model.entity.User;
+import com.zzz123q.genieoj.model.vo.QuestionSubmitVO;
 import com.zzz123q.genieoj.model.vo.QuestionVO;
 import com.zzz123q.genieoj.request.DeleteRequest;
 import com.zzz123q.genieoj.result.BaseResponse;
 import com.zzz123q.genieoj.result.ErrorCode;
 import com.zzz123q.genieoj.result.ResultUtils;
 import com.zzz123q.genieoj.service.QuestionService;
+import com.zzz123q.genieoj.service.QuestionSubmitService;
 import com.zzz123q.genieoj.service.UserService;
 
 import java.util.List;
@@ -47,6 +52,9 @@ public class QuestionController {
 
     @Resource
     private QuestionService questionService;
+
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     @Resource
     private UserService userService;
@@ -277,6 +285,46 @@ public class QuestionController {
         }
         boolean result = questionService.updateById(question);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 提交题目
+     *
+     * @param questionSubmitAddRequest
+     * @param request
+     */
+    @PostMapping("/question_submit/do")
+    @ApiOperation("提交题目")
+    public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
+            HttpServletRequest request) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 登录才能点赞
+        final User loginUser = userService.getLoginUser(request);
+        Long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResultUtils.success(questionSubmitId);
+    }
+
+    /**
+     * 分页获取题目提交列表
+     * (管理员与用户本人可以看见全部信息, 非用户本人只能看到部分公开信息)
+     *
+     * @param questionSubmitQueryRequest
+     * @return
+     */
+    @PostMapping("/question_submit/list/page")
+    @ApiOperation("分页获取题目提交列表")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(
+            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest, HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        final User loginUser = userService.getLoginUser(request);
+        Page<QuestionSubmitVO> questionSubmitVOPage = questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage,
+                loginUser);
+        return ResultUtils.success(questionSubmitVOPage);
     }
 
 }

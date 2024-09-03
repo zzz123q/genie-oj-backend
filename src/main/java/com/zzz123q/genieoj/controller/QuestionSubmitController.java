@@ -27,10 +27,11 @@ import io.swagger.annotations.ApiOperation;
 /**
  * 题目提交接口
  */
-@RestController
-@RequestMapping("/question_submit")
+// @RestController
+// @RequestMapping("/question_submit")
 @Slf4j
 @Api(tags = "题目提交接口")
+@Deprecated
 public class QuestionSubmitController {
 
     @Resource

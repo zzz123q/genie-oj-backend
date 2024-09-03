@@ -1,6 +1,7 @@
 package com.zzz123q.genieoj.judge.strategy;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.zzz123q.genieoj.judge.codesandbox.model.JudgeInfo;
 import com.zzz123q.genieoj.model.dto.question.JudgeCase;
@@ -28,8 +29,8 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
         JudgeConfig judgeConfig = judgeContext.getJudgeConfig();
 
-        Long memory = judgeInfo.getMemory();
-        Long time = judgeInfo.getTime();
+        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
+        Long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.ACCEPTED;
         JudgeInfo judgeInfoResponse = JudgeInfo.builder()
                 .time(time)
@@ -53,7 +54,8 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
 
         Long memoryLimit = judgeConfig.getMemoryLimit();
         Long timeLimit = judgeConfig.getTimeLimit();
-        if (memory > memoryLimit) {
+        final long JAVA_MEMORY_COST = 50 * 1024 * 1024L;
+        if ((memory - JAVA_MEMORY_COST) > memoryLimit) {
             judgeInfoMessageEnum = JudgeInfoMessageEnum.MEMORY_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
